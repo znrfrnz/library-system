@@ -48,10 +48,10 @@ export const POST: RequestHandler = async ({ params, request, locals }) => {
 		.from('profiles')
 		.update({ role })
 		.eq('id', params.id)
-		.select('id, name, role, created_at')
-		.single();
+		.select('id, name, role, created_at');
 
 	if (error) return json({ message: error.message }, { status: 500 });
+	if (!data || data.length === 0) return json({ message: 'User not found or update blocked by policy.' }, { status: 404 });
 
-	return json(data);
+	return json(data[0]);
 };
