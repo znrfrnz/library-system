@@ -1,8 +1,8 @@
-const RESEND_API_KEY = import.meta.env.VITE_RESEND_API_KEY || '';
+import { RESEND_API_KEY } from '$env/static/private';
 
 export async function sendEmail(to: string, subject: string, html: string) {
 	if (!RESEND_API_KEY) {
-		console.log('[Email] Skipped (no RESEND_API_KEY):', { to, subject });
+		console.warn('[Email] Skipped: no API key configured');
 		return { success: false, reason: 'no_api_key' };
 	}
 
