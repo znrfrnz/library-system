@@ -1,4 +1,5 @@
 import { json } from '@sveltejs/kit';
+import { createServiceRoleClient } from '$lib/server/supabase';
 import type { RequestHandler } from './$types';
 
 const VALID_ROLES = ['user', 'staff', 'moderator', 'admin'];
@@ -44,14 +45,17 @@ export const POST: RequestHandler = async ({ params, request, locals }) => {
 		}
 	}
 
-	const { data, error } = await locals.supabase
+	const serviceClient = createServiceRoleClient();
+	if (!serviceClient) return json({ message: 'Service role not configured.' }, { status: 500 });
+
+	const { data, error } = await serviceClient
 		.from('profiles')
 		.update({ role })
 		.eq('id', params.id)
-		.select('id, name, role, created_at');
+		.select('id, name, role, created_at')
+		.single();
 
 	if (error) return json({ message: error.message }, { status: 500 });
-	if (!data || data.length === 0) return json({ message: 'User not found or update blocked by policy.' }, { status: 404 });
 
-	return json(data[0]);
+	return json(data);
 };
