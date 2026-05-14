@@ -1,6 +1,6 @@
 # SPCBA Library System
 
-A full-stack library management system built for **SPCBA** (St. Paul College of Bocaue and Angat). Manages books, borrowing, reservations, notifications, and user roles.
+A full-stack library management system built for **SPCBA** (San Pedro College of Business Administration). Manages books, borrowing, reservations, notifications, and user roles.
 
 ## Tech Stack
 
